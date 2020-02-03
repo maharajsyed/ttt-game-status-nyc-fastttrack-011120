@@ -3,49 +3,66 @@ def position_taken?(board, index)
   !(board[index].nil? || board[index] == " ")
 end
 
-
 WIN_COMBINATIONS = [
-  [0,1,2], #Top row
-  [3,4,5], #Middle row
-  [6,7,8], #Bottom row
-  [0,3,6], #Left column
-  [1,4,7], #Middle column
-  [2,5,8], #Right column
-  [0,4,8], #Left start diagonal
-  [2,4,6]  #Right start diagonal
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [6, 4, 2]
 ]
 
 def won?(board)
-winner = []
-empty_board = board.all? {|x| x == " "}
-WIN_COMBINATIONS.each do |sub_array|
-    if empty_board || full?(board)
-      return false
-    elsif sub_array.all? { |value| board[value] =="X" } || sub_array.all? { |value| board[value] =="O" }
-      winner = sub_array
+  WIN_COMBINATIONS.each {|win_combo|
+    index_0 = win_combo[0]
+    index_1 = win_combo[1]
+    index_2 = win_combo[2]
+
+    position_1 = board[index_0]
+    position_2 = board[index_1]
+    position_3 = board[index_2]
+
+    if position_1 == "X" && position_2 == "X" && position_3 == "X"
+      return win_combo
+    elsif position_1 == "O" && position_2 == "O" && position_3 == "O"
+      return win_combo
     end
-  end
-  winner
+  }
+  return false
 end
 
 def full?(board)
-  !board.any? { |x| x == " " }
+  board.all? {|index| index == "X" || index == "O"}
 end
 
 def draw?(board)
   if !won?(board) && full?(board)
     return true
-  elsif !won?(board) && !full?(board) || !won?(board)
+  else
     return false
   end
 end
 
 def over?(board)
-  if full?(board) || !(won?(board)) || draw?(board)
-    puts "GAME OVER"
+  if won?(board) || full?(board) || draw?(board)
     return true
-  else 
-    puts "it ain't over till it's over baby!"
-    return false 
-  end 
-end  
+  else
+    return false
+  end
+end
+
+def winner (board)
+  index = []
+  index = won?(board)
+  if index == false
+    return nil
+  else
+    if board[index[0]] == "X"
+      return "X"
+    else
+      return "O"
+    end
+  end
+end
