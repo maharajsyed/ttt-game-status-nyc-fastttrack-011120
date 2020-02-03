@@ -27,3 +27,7 @@ WIN_COMBINATIONS.each do |sub_array|
   end
   winner
 end
+
+def full?(board)
+  !board.any? { |x| x == " " }
+end
