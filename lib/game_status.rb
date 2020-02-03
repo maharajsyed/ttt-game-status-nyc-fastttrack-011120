@@ -39,3 +39,21 @@ def draw?(board)
     return false
   end
 end
+
+def over?(board)
+  if full?(board) || !(won?(board)) || draw?(board)
+    puts "GAME OVER"
+    return true
+  else 
+    puts "it ain't over till it's over baby!"
+    return false 
+  end 
+end  
+
+puts over?(board)
+
+def winner(board)
+  if winning_combo = won?(board)
+    board[winning_combo.first]
+  end
+end
